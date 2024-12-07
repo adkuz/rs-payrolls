@@ -1,0 +1,38 @@
+{
+    "Wage type": {
+        "100 Regular work": 0.00,
+        "131 Meal allowance": 0.00,
+        "133 Vacation allowance": 0.00,
+        "603 Private health insurance": 0.00
+    },
+    "Total gross salary": 0.00,
+    "Base for contributions": 0.00,
+    "Employee contributions": {
+        "Pension insurance EE": 0.00,
+        "Health insurance EE": 0.00,
+        "Unemployment insurance EE": 0.00
+    },
+    "Total employee contributions": 0.00,
+    "Tax calculation": {
+        "Non-taxable amount": 0.00,
+        "Base for tax calculation": 0.00,
+        "PIT": 0.00
+    },
+    "Net salary with benefits": 0.00,
+    "Net benefits": 0.00,
+    "Net salary": 0.00,
+    "Compensation of costs and other personal income": {
+        "801 Commute allowance taxable": 0.00
+    },
+    "Total compensation": 0.00,
+    "Net salary for payment": 0.00,
+    "Employer contributions": {
+        "Pension insurance ER": 0.00,
+        "Health insurance ER": 0.00
+    },
+    "Total employer contributions": 0.00,
+    "Tax on transportation": {
+        "Commute allowance taxable": 0.00
+    },
+    "Total employer expense": 0.00
+}
