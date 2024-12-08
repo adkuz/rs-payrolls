@@ -88,5 +88,9 @@ def invariants_of_year(year: int):
         "Total employer contributions": (
             lambda payroll: payroll["Total employer contributions"],
             lambda payroll: sum(payroll["Employer contributions"].values())
-        )
+        ),
+        "Tax on transportation/Commute allowance taxable": (
+            lambda payroll: round_percent(100, 1/9 * payroll.get("Compensation of costs and other personal income", {}).get("801 Commute allowance taxable", 0)),
+            lambda payroll: payroll.get("Tax on transportation", {}).get("Commute allowance taxable", 0),
+        ),
     }
