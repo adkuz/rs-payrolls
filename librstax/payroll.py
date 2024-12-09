@@ -14,22 +14,28 @@ def invariants_of_year(year: int):
     if year not in constants:
         raise Exception(f"no invariants for the year {year}")
     
+    base_for_contributions = lambda payroll: min(payroll["Base for contributions"], payroll["Total gross salary"])
+    
     return {
         "Total gross salary": (
             lambda payroll: payroll["Total gross salary"],
             lambda payroll: sum(payroll["Wage type"].values()),
         ),
+        "Base for contributions": (
+            lambda payroll: payroll["Base for contributions"],
+            lambda _: constants[year]["Base for contributions"],
+        ),
         "Pension insurance EE": (
             lambda payroll: payroll["Employee contributions"]["Pension insurance EE"],
-            lambda payroll: round_percent(14.0, payroll["Base for contributions"]),
+            lambda payroll: round_percent(14.0, base_for_contributions(payroll)),
         ),
         "Health insurance EE": (
             lambda payroll: payroll["Employee contributions"]["Health insurance EE"],
-            lambda payroll: round_percent(5.15, payroll["Base for contributions"]),
+            lambda payroll: round_percent(5.15, base_for_contributions(payroll)),
         ),
         "Unemployment insurance EE": (
             lambda payroll: payroll["Employee contributions"]["Unemployment insurance EE"],
-            lambda payroll: round_percent(0.75, payroll["Base for contributions"]),
+            lambda payroll: round_percent(0.75, base_for_contributions(payroll)),
         ),
         "Total employee contributions": (
             lambda payroll: payroll["Total employee contributions"],
@@ -79,11 +85,11 @@ def invariants_of_year(year: int):
         ),
         "Pension insurance ER": (
             lambda payroll: payroll["Employer contributions"]["Pension insurance ER"],
-            lambda payroll: round_percent(10.00, payroll["Base for contributions"]),
+            lambda payroll: round_percent(10.00, base_for_contributions(payroll)),
         ),
         "Health insurance ER": (
             lambda payroll: payroll["Employer contributions"]["Health insurance ER"],
-            lambda payroll: round_percent(5.15, payroll["Base for contributions"]),
+            lambda payroll: round_percent(5.15, base_for_contributions(payroll)),
         ),
         "Total employer contributions": (
             lambda payroll: payroll["Total employer contributions"],
