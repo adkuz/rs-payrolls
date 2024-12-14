@@ -79,9 +79,13 @@ def invariants_of_year(year: int):
             lambda payroll: payroll.get("Total compensation", 0),
             lambda payroll: sum(payroll.get("Compensation of costs and other personal income", {}).values())
         ),
+        "Total deductions": (
+            lambda payroll: payroll.get("Total deductions", 0),
+            lambda payroll: sum(payroll.get("Deductions", {}).values()),
+        ),
         "Net salary for payment": (
             lambda payroll: payroll.get("Net salary for payment", 0),
-            lambda payroll: payroll["Net salary"] + payroll.get("Total compensation", 0)
+            lambda payroll: payroll["Net salary"] + payroll.get("Total compensation", 0) + payroll.get("Total deductions", 0)
         ),
         "Pension insurance ER": (
             lambda payroll: payroll["Employer contributions"]["Pension insurance ER"],
