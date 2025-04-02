@@ -8,6 +8,7 @@ def read_json(filename: str):
         data = json.load(file)
     return data
 
+
 def flatten_dict(d, parent_key='', sep='/'):
     items = []
     for k, v in d.items():

@@ -6,8 +6,9 @@ from .consts import CONSTS as constants
 
 def enrich_payroll(payroll):
     result = copy.deepcopy(payroll)
-    result["Tax on transportation (sum)"] = sum(result["Tax on transportation"].values()) 
+    result["Tax on transportation (sum)"] = sum(result.get("Tax on transportation", {}).values()) 
     return result
+
 
 def invariants_of_year(year: int):
     year = str(year)

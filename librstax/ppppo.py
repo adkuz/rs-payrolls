@@ -41,10 +41,10 @@ ppppo_funcs = {
         "3.7": lambda summary: summary["Total employer contributions"],
     },
     "110000": {
-        "3.2": lambda summary: round(summary["Total compensation"] + summary["Tax on transportation (sum)"], 0),
+        "3.2": lambda summary: round(summary.get("Total compensation", 0) + summary.get("Tax on transportation (sum)", 0), 0),
         "3.3": lambda _: 0,
         "3.4": lambda summary: ppppo_funcs["110000"]["3.2"](summary)-ppppo_funcs["110000"]["3.3"](summary),
-        "3.5": lambda summary: round(summary["Tax on transportation (sum)"], 0),
+        "3.5": lambda summary: round(summary.get("Tax on transportation (sum)", 0), 0),
         "3.6": lambda _: 0,
         "3.7": lambda _: 0,
     },
