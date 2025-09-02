@@ -16,7 +16,8 @@ def invariants_of_year(year: int):
         raise Exception(f"no invariants for the year {year}")
     
     base_for_contributions = lambda payroll: min(payroll["Base for contributions"], payroll["Total gross salary"])
-    
+    is_bonus = lambda payroll: "bonus" in payroll.get("tags", []) 
+
     return {
         "Total gross salary": (
             lambda payroll: payroll["Total gross salary"],
@@ -25,26 +26,32 @@ def invariants_of_year(year: int):
         "Base for contributions": (
             lambda payroll: payroll["Base for contributions"],
             lambda _: constants[year]["Base for contributions"],
+            is_bonus, #skip condition
         ),
         "Pension insurance EE": (
             lambda payroll: payroll["Employee contributions"]["Pension insurance EE"],
             lambda payroll: round_percent(14.0, base_for_contributions(payroll)),
+            is_bonus, #skip condition
         ),
         "Health insurance EE": (
             lambda payroll: payroll["Employee contributions"]["Health insurance EE"],
             lambda payroll: round_percent(5.15, base_for_contributions(payroll)),
+            is_bonus, #skip condition
         ),
         "Unemployment insurance EE": (
             lambda payroll: payroll["Employee contributions"]["Unemployment insurance EE"],
             lambda payroll: round_percent(0.75, base_for_contributions(payroll)),
+            is_bonus, #skip condition
         ),
         "Total employee contributions": (
             lambda payroll: payroll["Total employee contributions"],
             lambda payroll: sum(payroll["Employee contributions"].values()),
+            is_bonus, #skip condition
         ),
         "Non-taxable amount": (
             lambda payroll: payroll["Tax calculation"]["Non-taxable amount"],
             lambda _: constants[year]["Non-taxable amount"],
+            is_bonus, #skip condition
         ),
         "Base for tax calculation": (
             lambda payroll: payroll["Tax calculation"]["Base for tax calculation"],
@@ -70,6 +77,7 @@ def invariants_of_year(year: int):
                     filter(lambda key: int(key.split(' ')[0]) >=600, payroll["Wage type"].keys()),
                     0
                 )),
+            is_bonus, #skip condition
         ),
         "Net salary": (
             lambda payroll: payroll["Net salary"],
@@ -91,14 +99,17 @@ def invariants_of_year(year: int):
         "Pension insurance ER": (
             lambda payroll: payroll["Employer contributions"]["Pension insurance ER"],
             lambda payroll: round_percent(10.00, base_for_contributions(payroll)),
+            is_bonus, #skip condition
         ),
         "Health insurance ER": (
             lambda payroll: payroll["Employer contributions"]["Health insurance ER"],
             lambda payroll: round_percent(5.15, base_for_contributions(payroll)),
+            is_bonus, #skip condition
         ),
         "Total employer contributions": (
             lambda payroll: payroll["Total employer contributions"],
-            lambda payroll: sum(payroll["Employer contributions"].values())
+            lambda payroll: sum(payroll["Employer contributions"].values()),
+            is_bonus, #skip condition
         ),
         "Tax on transportation/Commute allowance taxable": (
             lambda payroll: round_percent(100, 1/9 * payroll.get("Compensation of costs and other personal income", {}).get("801 Commute allowance taxable", 0)),
