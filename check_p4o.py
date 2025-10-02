@@ -9,7 +9,7 @@ from librstax import flatten_dict, merge_flat_dicts, enrich_payroll, ppppo_funcs
 if __name__ == '__main__':
     data = read_json(sys.argv[1])
     payrolls = [flatten_dict(enrich_payroll(data["payrolls"][x])) for x in data["payrolls"]]
-    summary = merge_flat_dicts(payrolls, lambda a, b: a + b, 0, 0)
+    summary = merge_flat_dicts(payrolls, lambda a, b: a + b, 0, 0, skip_keys=["tags"])
 
     headers = sorted(ppppo_columns.keys())
     expected_p4o = []

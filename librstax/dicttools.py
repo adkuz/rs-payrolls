@@ -20,12 +20,13 @@ def flatten_dict(d, parent_key='', sep='/'):
     return dict(items)
 
 
-def merge_flat_dicts(dicts, reducer, initial=None, default=None):
+def merge_flat_dicts(dicts, reducer, initial=None, default=None, skip_keys=[]):
     all_keys = set().union(*dicts)  # Collect all unique keys from the dictionaries
     merged = {}
 
     for key in all_keys:
-        values = [d.get(key, default) for d in dicts]
-        merged[key] = functools.reduce(reducer, values, initial)
+        if key not in skip_keys:
+            values = [d.get(key, default) for d in dicts]
+            merged[key] = functools.reduce(reducer, values, initial)
 
     return merged
